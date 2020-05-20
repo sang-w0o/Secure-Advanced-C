@@ -5,7 +5,6 @@ swap 함수 구현하기
 * 모두가 아는 swap 함수
 <pre><code>
 
-#include <stdio.h>
 void swap(void *a, void *b);
 
 int main() {
