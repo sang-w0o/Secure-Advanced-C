@@ -101,13 +101,12 @@ __단점들__
     (y) = (t);
 
 int main() {
-   int a = 10, b = 20, t1;
-   SWAP(a, b, t1);
-   printf("a = %d, b = %d\n", a, b);
-	
-   double c = 3.14, d = 5.14, t2;
-   SWAP(c, d, t2);
-   printf("c = %f, d = %f\n", c, d);
+	int a = 10, b = 20, t1;
+	SWAP(a, b, t1);
+	printf("a = %d, b = %d\n", a, b);
+	double c = 3.14, d = 5.14, t2;
+   	SWAP(c, d, t2);
+   	printf("c = %f, d = %f\n", c, d);
 }
 </code></pre>
 이번에는 SWAP을 매크로 함수로 구현해보았다.
@@ -126,13 +125,12 @@ __단점__
 	(y) = t; }
 
 int main() {
-   int a = 10, b = 20;
-   SWAP(a, b, int);
-   printf("a = %d, b = %d\n", a, b);
-
-   double c = 3.14, d = 5.14;
-   SWAP(c, d, double);
-   printf("c = %f, d = %f\n", c, d);
+	int a = 10, b = 20;
+   	SWAP(a, b, int);
+   	printf("a = %d, b = %d\n", a, b);
+   	double c = 3.14, d = 5.14;
+   	SWAP(c, d, double);
+   	printf("c = %f, d = %f\n", c, d);
 }
 </pre></code>
 위 코드에서는 SWAP의 세번 째 인자T에 swap할 자료형을 받게 했다.   
@@ -185,13 +183,12 @@ void swap(void *a, void *b, size_t dataSize) {
 }
 
 int main(){
-   int a = 10, b = 20;
-   swap(&a, &b, sizeof(int));
-   printf("a = %d, b = %d\n", a, b);
-    
-   double c = 3.14, d = 5.14, t2;
-   SWAP(c, d, t2);
-   printf("c = %f, d = %f\n", c, d);
+  	int a = 10, b = 20;
+   	swap(&a, &b, sizeof(int));
+   	printf("a = %d, b = %d\n", a, b);
+   	double c = 3.14, d = 5.14, t2;
+   	SWAP(c, d, t2);
+   	printf("c = %f, d = %f\n", c, d);
 }
 </code></pre>
 
