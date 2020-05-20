@@ -15,7 +15,7 @@ int main() {
 }
 
 void swap(void *a, void *b) {
-	int t = *(int *)a;
+        int t = *(int *)a;
 	*(int *)a = *(int *)b;
 	*(int *)b = t;
 }
@@ -46,10 +46,11 @@ void swap(void *a, void *b, enum Type t) {
 }
 
 int main() {
-	int a = 10, b = 20;
-	swap(&a, &b, INT);
-	double c = 3.14, d = 5.14;
-	swap(&c, &d, DOUBLE);
+   int a = 10, b = 20;
+   swap(&a, &b, INT);
+	
+   double c = 3.14, d = 5.14;
+   swap(&c, &d, DOUBLE);
 }
 </code></pre>
 C언어에는 Java의 Object처럼 모든 타입을 담을 수 있을 수 없기에   
@@ -100,12 +101,13 @@ __단점들__
     (y) = (t);
 
 int main() {
-	int a = 10, b = 20, t1;
-	SWAP(a, b, t1);
-	printf("a = %d, b = %d\n", a, b);
-	double c = 3.14, d = 5.14, t2;
-	SWAP(c, d, t2);
-	printf("c = %f, d = %f\n", c, d);
+   int a = 10, b = 20, t1;
+   SWAP(a, b, t1);
+   printf("a = %d, b = %d\n", a, b);
+	
+   double c = 3.14, d = 5.14, t2;
+   SWAP(c, d, t2);
+   printf("c = %f, d = %f\n", c, d);
 }
 </code></pre>
 이번에는 SWAP을 매크로 함수로 구현해보았다.
@@ -124,13 +126,13 @@ __단점__
 	(y) = t; }
 
 int main() {
-	int a = 10, b = 20;
-	SWAP(a, b, int);
-	printf("a = %d, b = %d\n", a, b);
+   int a = 10, b = 20;
+   SWAP(a, b, int);
+   printf("a = %d, b = %d\n", a, b);
 
-	double c = 3.14, d = 5.14;
-	SWAP(c, d, double);
-	printf("c = %f, d = %f\n", c, d);
+   double c = 3.14, d = 5.14;
+   SWAP(c, d, double);
+   printf("c = %f, d = %f\n", c, d);
 }
 </pre></code>
 위 코드에서는 SWAP의 세번 째 인자T에 swap할 자료형을 받게 했다.   
@@ -174,22 +176,22 @@ __단점__
 void swap(void *a, void *b, size_t dataSize) {
     char *pA = (char *)a;
     char *pB = (char *)b;
-
-    for(size_t i = 0; i < dataSize; i++, pA++, pB++) {
+    
+   for(size_t i = 0; i < dataSize; i++, pA++, pB++) {
         char t = *pA;
         *pA = *pB;
         *pB = t;
-    }
+   }
 }
 
 int main(){
-    int a = 10, b = 20;
-	swap(&a, &b, sizeof(int));
-	printf("a = %d, b = %d\n", a, b);
-
-	double c = 3.14, d = 5.14;
-	swap(&c, &d, sizeof(double));
-	printf("c = %f, d = %f\n", c, d);
+   int a = 10, b = 20;
+   swap(&a, &b, sizeof(int));
+   printf("a = %d, b = %d\n", a, b);
+    
+   double c = 3.14, d = 5.14, t2;
+   SWAP(c, d, t2);
+   printf("c = %f, d = %f\n", c, d);
 }
 </code></pre>
 
@@ -202,7 +204,7 @@ __결과__
 <br/>
 <h1>생각해보기</h1>
 다음은 리눅스 v2.6.39.4에 있는 sort.c의 swap함수이다.
-<pre style="width:500px;"><code>
+<pre><code>
 static void generic_swap(void *a, void *b, int size) {
     char t;
     do {
