@@ -208,3 +208,18 @@ static void generic_swap(void *a, void *b, int size) {
 __의문점__
 
 * 위 코드는 GCC 컴파일러에서는 문제없이 작동하지만, Visual Studio C Compiler에서는 컴파일 타임에 오류가 발생한다. 이유가 뭘까..?
+
+__정답__
+
+* GCC에서는 void* 에 대한 증감 연산이 가능하다. 하지만 Visual Studio C Compiler는 이를 허용하지 않는다.   
+* *(char *)a++ = *(char *)b; 가 수행되는 순서
+   * (1) a를 char*형으로 캐스팅한다.
+   * (2) 역참조를 하여 우항의 값을 대입한다. (이때, 캐스팅효과는 역참조 후 풀리게 된다.)
+   * (3) a(void*형)에 대하여 ++연산을 수행한다.
+   * (4) void*에 대하여 ++ 연산을 하기에 Visual Studio C Compiler에서는 수행이 불가하지만, GCC에서는 수행이 가능한 것이다. 
+   * (5) Visual Studio C Comipler에서도 수행가능하게 하려면 코드를 다음과 같이 고쳐야 한다.
+<br/>
+<pre></code>
+*((char *)a)++ = *(char *)b;
+*((char *)b)++ = t;
+</code></pre>
