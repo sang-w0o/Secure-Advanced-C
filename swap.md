@@ -5,6 +5,7 @@ swap 함수 구현하기
 * 모두가 아는 swap 함수
 <pre><code>
 
+#include <stdio.h>
 void swap(void *a, void *b);
 
 int main() {
@@ -100,11 +101,9 @@ __단점들__
     (y) = (t);
 
 int main() {
-	
 	int a = 10, b = 20, t1;
 	SWAP(a, b, t1);
 	printf("a = %d, b = %d\n", a, b);
-
 	double c = 3.14, d = 5.14, t2;
 	SWAP(c, d, t2);
 	printf("c = %f, d = %f\n", c, d);
