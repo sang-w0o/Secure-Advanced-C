@@ -44,13 +44,11 @@ void swap(void *a, void *b, enum Type t) {
 	}
 	}
 }
-
 int main() {
-   int a = 10, b = 20;
-   swap(&a, &b, INT);
-	
-   double c = 3.14, d = 5.14;
-   swap(&c, &d, DOUBLE);
+	int a = 10, b = 20;
+   	swap(&a, &b, INT);
+   	double c = 3.14, d = 5.14;
+   	swap(&c, &d, DOUBLE);
 }
 </code></pre>
 C언어에는 Java의 Object처럼 모든 타입을 담을 수 있을 수 없기에   
@@ -71,7 +69,6 @@ void swap(void *a, void *b, size_t dataSize){
     memcpy(b, t, dataSize);
     free(t);
 }
-
 int main() {
 	int a = 10, b = 20;
 	swap(&a, &b, sizeof(int));
@@ -99,7 +96,6 @@ __단점들__
     (t) = (x);
     (x) = (y);
     (y) = (t);
-
 int main() {
 	int a = 10, b = 20, t1;
 	SWAP(a, b, t1);
@@ -123,7 +119,6 @@ __단점__
 	T t = (x);\
 	(x) = (y);\
 	(y) = t; }
-
 int main() {
 	int a = 10, b = 20;
    	SWAP(a, b, int);
@@ -174,14 +169,12 @@ __단점__
 void swap(void *a, void *b, size_t dataSize) {
     char *pA = (char *)a;
     char *pB = (char *)b;
-    
    for(size_t i = 0; i < dataSize; i++, pA++, pB++) {
         char t = *pA;
         *pA = *pB;
         *pB = t;
    }
 }
-
 int main(){
   	int a = 10, b = 20;
    	swap(&a, &b, sizeof(int));
