@@ -3,8 +3,8 @@ swap 함수 구현하기
 이 문서는 swap함수를 단계별로 단점을 극복해가며 작성한 것이다.
 
 * 모두가 아는 swap 함수
-<pre><code>
 
+```C
 void swap(void *a, void *b);
 
 int main() {
@@ -19,14 +19,15 @@ void swap(void *a, void *b) {
 	*(int *)a = *(int *)b;
 	*(int *)b = t;
 }
-</code></pre>
+```
 
 __단점__
 
 *  위 swap함수는 int형만 swap이 가능하다.   
 따라서 다음에는 모든 타입에 대하여 swap이 가능하도록 해보자.
 <hr/>
-<pre><code>
+
+```C
 enum Type {  INT, DOUBLE };  //Type Code라 한다.
 void swap(void *a, void *b, enum Type t) {
 	switch (t) {
@@ -50,7 +51,8 @@ int main() {
    	double c = 3.14, d = 5.14;
    	swap(&c, &d, DOUBLE);
 }
-</code></pre>
+```
+
 C언어에는 Java의 Object처럼 모든 타입을 담을 수 있을 수 없기에   
 위와 같이 열거형으로 타입을 주었다.
 
@@ -61,7 +63,8 @@ __단점들__
 <hr/>
 이번에는 Type Code 대신 dataSize:size_t를 swap의   
 인수로 받아서 동적 할당을 통해 구현해보았다.
-<pre><code>
+
+```C
 void swap(void *a, void *b, size_t dataSize){
     void *t = malloc(dataSize);
     memcpy(t, a, dataSize);
@@ -77,7 +80,8 @@ int main() {
 	swap(&c, &d, sizeof(double));
 	printf("c = %f, d = %f\n", c, d);
 }
-</code></pre>
+```
+
 위와 같이 세번 째 인수로 바꾸려는 자료형의 크기를 전달하면,
 swap에서 void* t 를 해당 크기에 맞게 동적 할당하여
 swap을 구현할 수 있었다.
@@ -91,7 +95,8 @@ __단점들__
 <br/>
 따라서 다음에는 동적 할당을 하지 않고 하는 방법을 생각해보자.
 <hr/>
-<pre><code>
+
+```C
 #define SWAP(x, y, t) \
     (t) = (x);
     (x) = (y);
@@ -104,7 +109,8 @@ int main() {
    	SWAP(c, d, t2);
    	printf("c = %f, d = %f\n", c, d);
 }
-</code></pre>
+```
+
 이번에는 SWAP을 매크로 함수로 구현해보았다.
 SWAP의 세번 째 인수인 t는 사용자로부터 받는 인수이다.
 
@@ -114,7 +120,8 @@ __단점__
 
 <hr/>
 이번에는 위의 스택 메모리를 절약하기 위해 매크로 함수를 조금 바꿔보았다.
-<pre><code>
+
+```C
 #define SWAP(x, y, T) {\
 	T t = (x);\
 	(x) = (y);\
@@ -127,37 +134,39 @@ int main() {
    	SWAP(c, d, double);
    	printf("c = %f, d = %f\n", c, d);
 }
-</pre></code>
+```
+
 위 코드에서는 SWAP의 세번 째 인자T에 swap할 자료형을 받게 했다.   
 그리고 { }블록을 두어 t를 그 안에서 선언하므로써, 불필요한 스택 메모리의 사용을 없앴다.
 
 __단점__
 
 * Dangling-Else가 발생할 수 있다.
-* <pre><code>
-  int a = 10, b = 20;
-  if(a > b){
-    SWAP(a, b, int);
-  }
-  else{
-      ;
-  }
-
-  //위와 같이 if문 안에 SWAP함수를 두면,
-  //전처리기에 의해 변환된 if절의 마지막이
-  // }; 로 끝나게 되는 문제점이 발생한다.
-  </code></pre>
+* 
+```C
+int a = 10, b = 20;
+if(a > b){
+	SWAP(a, b, int);	
+}
+else{
+	;
+}
+//위와 같이 if문 안에 SWAP함수를 두면,
+//전처리기에 의해 변환된 if절의 마지막이
+// }; 로 끝나게 되는 문제점이 발생한다.
+```
 
 <hr/>
 위 코드에서의 Dangling-else가 발생하는 현상을   
 막기 위해서는 SWAP함수의 정의부를 do-while 문으로   
 감싸주는 방법이 있다.
-<pre><code>
+
+```C
 #define SWAP(x, y, T) do{ \
     T t = (x);\
     (x) = (y);
     (y) = t; } while(0)
-</code></pre>
+```
 
 __단점__
 
@@ -165,7 +174,7 @@ __단점__
 * 하지만 꼭 매크로 함수를 써야할까? 그리고, 일반 함수를   사용한다면 동적할당을 하지 않고 구현할 수는 없을까?
 <hr/>
 
-<pre style="width:500px"><code>
+```C
 void swap(void *a, void *b, size_t dataSize) {
     char *pA = (char *)a;
     char *pB = (char *)b;
@@ -183,7 +192,7 @@ int main(){
    	SWAP(c, d, t2);
    	printf("c = %f, d = %f\n", c, d);
 }
-</code></pre>
+```
 
 위 swap함수에서는 바꿀 것을 1Byte 단위로 꺼내와서   복사한다. 그러기 위해 char* 와 char을 이용했다.
 
@@ -194,7 +203,8 @@ __결과__
 <br/>
 <h1>생각해보기</h1>
 다음은 리눅스 v2.6.39.4에 있는 sort.c의 swap함수이다.
-<pre><code>
+
+```C
 static void generic_swap(void *a, void *b, int size) {
     char t;
     do {
@@ -203,7 +213,7 @@ static void generic_swap(void *a, void *b, int size) {
         *(char *)b++ = t;
     } while( --size > 0);
 }
-</code></pre>
+```
 
 __의문점__
 
@@ -219,7 +229,8 @@ __정답__
    * (4) void*에 대하여 ++ 연산을 하기에 Visual Studio C Compiler에서는 수행이 불가하지만, GCC에서는 수행이 가능한 것이다. 
    * (5) Visual Studio C Comipler에서도 수행가능하게 하려면 코드를 다음과 같이 고쳐야 한다.
 <br/>
-<pre></code>
+
+```C
 *((char *)a)++ = *(char *)b;
 *((char *)b)++ = t;
-</code></pre>
+```
