@@ -133,7 +133,4 @@ int printArray(const int *arr, size_t len){
 <hr/>
 
 9. 충분한 크기의 공간에서 복사가 진행됨을 보장하라.   
-    (예시 코드)
-```C
-
-```
+<hr/>
