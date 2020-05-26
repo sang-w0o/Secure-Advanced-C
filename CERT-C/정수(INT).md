@@ -71,9 +71,9 @@ int main(){
     //자동초기화가 안되므로
     //처음에 0으로 초기화해야한다.
 
-    long num = strtol(buf, &endPtr, 10);
+    long num = strtol(buf, &endPtr, 0);
     //strtol의 인자 목록
-    //바꿀 문자열, char* 포인터, n진수의 n값
+    //바꿀 문자열, char* 포인터, n진수 (10진수의 경우 0)
     //2번째 인수는 오류처리를 위해 사용된다.
     //endPtr은 입력된 문자열의 시작부터 끝까지
     //1Byte씩 파싱을 해간다.
