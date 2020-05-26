@@ -127,6 +127,8 @@ int main(){
     return 0;
 }
 ```
+* fgets()는 보통 입력 스트림으로 부터 개행 문자로   
+  종료된 문자열을 읽기 위해 사용한다.
 * fgets()는 실패할 경우 NULL을 반환한다.
 * fgets()로 버퍼보다 작은 값을 읽는 경우
   * 개행문자까지 읽어오며, 끝은 ASCII NULL로 설정한다.
@@ -154,3 +156,99 @@ int main(){
   }
   return 0;
   ```
+
+```C
+#include <stdio.h>
+#include <string.h>
+
+int main(){
+    char buf[5];
+
+    if(fgets(buf, sizeof(buf), stdin) != NULL) {
+        buf[strlen(buf) - 1] = '\0';
+
+        //값 찍어보기
+        for(int i = 0; i < 5; i++){
+            printf("[%d]", buf[i]);
+        }
+        printf("\n");
+        // ABC 입력 시
+        // [65] [66] [67] [0] [0] 출력
+
+        // ABCDE 입력 시
+        // [65] [66] [67] [0] [0] 출력
+        // --> D의 데이터가 유실된다!
+    }
+}
+```
+* 위에서 fgets로 읽어들인 버퍼에서 개행문자를 무조건 지우면   
+  데이터가 유실될 수도 있음을 알 수 있다.
+* 따라서 추가적인 조치가 필요하다.
+* [strchr() : 해당 문자열에 특정 문자가 있는지 확인하는 함수]를 이용해보자
+```C
+#include <stdio.h>
+#include <string.h>
+
+int main(){
+    char buf[5];
+
+    fgets(buf, sizeof(buf), stdin);
+
+    //buf에 개행이 있는지 검사
+    char *p = strchar(buf, '\n');
+    
+    //개행이 있는지 검사
+    //없다면 p는 null이므로 if문에 안들어간다.
+    if(*p){
+        *p = '\0';
+    }
+
+    for(int i = 0; i < 5; i++){
+        printf("[%d] ", buf[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+```
+<hr/>
+
+7. fgets() 실패 시 버퍼를 NULL 문자열로 리셋하라.
+* fgets함수 실패 시, 인자로 전달된 버퍼는 알 수 없는   
+  상태로 정의되므로 사용하면 안된다.   
+  (예시 코드)
+```C
+#include <stdio.h>
+
+int main(){
+    
+    char buf[5] = {0, };
+    
+    //fgets() 실패 시
+    if(fgets(buf, sizeof(buf), stdin) == NULL) {
+        fprintf(stderr, "fgets() error");
+        *buf = '\0';
+    }
+}
+```
+<hr/>
+
+8. 입출력 FILE 객체를 복사해 사용하지 마라.   
+   (예시 코드)
+```C
+#include <stdio.h>
+
+int main(){
+    
+    //stdout은 FILE* 형이다.
+    FILE *fp = stdout;
+    fputs("HELLO", fp);  //정상 수행
+
+    FILE file = *stdout;
+    fputs("HELLO", &file);
+    // 비정상적 수행
+}
+```
+* 위 코드의 결과를 보면 두번째 fputs() 호출 시 프로그램이 비정상 종료된다.
+* 그 이유는 stdout의 복사본을 사용하는 것 이기 때문이다.
+<hr/>
