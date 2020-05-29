@@ -6,10 +6,10 @@
 typedef struct Node Node;
 typedef struct List List;
 
-int listRemove(List *list, int index, void *outData);
-int listGet(const List *list, int index, void *outData);
+void *listRemove(List *list, int index);
+void *listGet(const List *list, int index);
 int listInsert(List *list, int index, void *data);
-int listSet(List *list, int index, void *newData, void *oldData);
+void *listSet(List *list, int index, void *newData);
 List *listInitialize();
 int listFinalize(List *list);
 int listAdd(List *list, void *data);

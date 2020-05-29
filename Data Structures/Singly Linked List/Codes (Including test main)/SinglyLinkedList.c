@@ -24,25 +24,20 @@ static int listCount(const List *list) {
 	return list->count;
 }
 
-int listRemove(List *list, int index, void *outData) {
+void *listRemove(List *list, int index) {
 	if (list == NULL) {
 		fprintf(stderr, "listRemove:list is NULL");
-		return -1;
+		return NULL;
 	}
 
 	if (list->count == 0) {
-		fprintf(stderr, "listGet:list is empty.\n");
-		return -1;
+		fprintf(stderr, "listRemove:list is empty.\n");
+		return NULL;
 	}
 
 	if (index < 0 || index >= list->count) {
-		fprintf(stderr, "listGet:index is out of bound.\n");
-		return -1;
-	}
-
-	if (outData == NULL) {
-		fprintf(stderr, "listGet:outData is NULL.\n");
-		return -1;
+		fprintf(stderr, "listRemove:index is out of bound.\n");
+		return NULL;
 	}
 
 	Node *prev = list->head;
@@ -51,30 +46,25 @@ int listRemove(List *list, int index, void *outData) {
 		prev = prev->next;
 	}
 	Node *delNode = prev->next;
-	(void *)outData = delNode->data;
+	void *outData = delNode->data;
 	prev->next = delNode->next;
-	return 0;
+	return outData;
 }
 
-int listGet(const List *list, int index, void *outData) {
+void *listGet(const List *list, int index) {
 	if (list == NULL) {
 		fprintf(stderr, "listGet:list is NULL");
-		return -1;
+		return NULL;
 	}
 
 	if (list->count == 0) {
 		fprintf(stderr, "listGet:list is empty.\n");
-		return -1;
+		return NULL;
 	}
 
 	if (index < 0 || index >= list->count) {
 		fprintf(stderr, "listGet:index is out of bound.\n");
-		return -1;
-	}
-
-	if (outData == NULL) {
-		fprintf(stderr, "listGet:outData is NULL.\n");
-		return -1;
+		return NULL;
 	}
 
 	Node *node = list->head->next;
@@ -82,8 +72,8 @@ int listGet(const List *list, int index, void *outData) {
 		node = node->next;
 	}
 
-	(void *)outData = node->data;
-	return 0;
+	void *outData = node->data;
+	return outData;
 
 }
 
@@ -122,33 +112,28 @@ int listInsert(List *list, int index, void *data) {
 	return 0;
 }
 
-int listSet(List *list, int index, void *newData, void *oldData) {
+void *listSet(List *list, int index, void *newData) {
 	if (list == NULL) {
 		fprintf(stderr, "listSet:list is NULL");
-		return -1;
+		return NULL;
 	}
 	
 	if (list->count == 0) {
 		fprintf(stderr, "listSet:list is empty.\n");
-		return -1;
-	}
-
-	if (oldData == NULL) {
-		fprintf(stderr, "listSet:oldData is NULL.\n");
-		return -1;
+		return NULL;
 	}
 
 	if (index < 0 || index >= list->count) {
 		fprintf(stderr, "listSet:index is out of bound.\n");
-		return -1;
+		return NULL;
 	}
 
 	Node *cur = list->head->next;
 	for (int i = 0; i < index; i++)
 		cur = cur->next;
-	(void *)oldData = cur->data;
+	void * oldData = cur->data;
 	cur->data = newData;
-	return 0;
+	return oldData;
 }
 
 List *listInitialize() {

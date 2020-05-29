@@ -29,10 +29,9 @@ int main() {
 	}
 	listDisplay(list, toPerson);
 
-	Person *data;
-	listRemove(list, 4, &data), listDisplay(list, toPerson);
-	listRemove(list, 2, &data), listDisplay(list, toPerson);
-	listRemove(list, 0, &data), listDisplay(list, toPerson);
+	listRemove(list, 4), listDisplay(list, toPerson);
+	listRemove(list, 2), listDisplay(list, toPerson);
+	listRemove(list, 0), listDisplay(list, toPerson);
 
 	listFinalize(list);
 	return 0;
