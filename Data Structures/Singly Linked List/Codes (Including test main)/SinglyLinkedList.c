@@ -187,7 +187,7 @@ int listFinalize(List *list) {
 		Node *target = list->head->next;
 		list->head->next = target->next;
 		if (list->freeFunction) {
-			list->freeFunction(target);
+			list->freeFunction(target->data);
 		}
 		free(target);
 	}
