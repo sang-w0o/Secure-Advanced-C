@@ -16,8 +16,8 @@ const char *toPerson(const void *data) {
 
 int main() {
 
-
-	List *list = listInitialize();
+	
+	List *list = listInitialize(NULL);
 
 	Person people[5] = {
 		{"A", 11}, {"B", 22}, {"C", 33}, {"D", 44}, {"E", 55} };
@@ -35,4 +35,5 @@ int main() {
 
 	listFinalize(list);
 	return 0;
+	
 }

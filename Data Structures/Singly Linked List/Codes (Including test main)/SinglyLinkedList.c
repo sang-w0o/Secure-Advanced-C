@@ -4,6 +4,7 @@
 #include <memory.h>
 #include "SinglyLinkedList.h"
 
+
 typedef struct Node {
 	void *data;
 	struct Node *next;
@@ -13,7 +14,9 @@ typedef struct List {
 	Node *head;
 	Node *tail;
 	int count;
+	FreeFunction *freeFunction;
 }List;
+
 
 static int listCount(const List *list) {
 	if (list == NULL) {
@@ -48,6 +51,7 @@ void *listRemove(List *list, int index) {
 	Node *delNode = prev->next;
 	void *outData = delNode->data;
 	prev->next = delNode->next;
+	--(list->count);
 	return outData;
 }
 
@@ -136,7 +140,7 @@ void *listSet(List *list, int index, void *newData) {
 	return oldData;
 }
 
-List *listInitialize() {
+List *listInitialize(FreeFunction freeFunction) {
 
 	List *list = calloc(1, sizeof(List));
 
@@ -148,12 +152,14 @@ List *listInitialize() {
 	Node *head = malloc(sizeof(Node));
 	if (head == NULL) {
 		perror("listInitialize");
+		free(list);
 		return NULL;
 	}
 
 	Node *tail = malloc(sizeof(Node));
 	if (tail == NULL) {
 		perror("listInitialize");
+		free(list);
 		free(head);
 		return NULL;
 	}
@@ -162,6 +168,7 @@ List *listInitialize() {
 	head->next = tail;
 	tail->next = tail;
 	list->count = 0;
+	list->freeFunction = freeFunction;
 	return list;
 }
 
@@ -179,6 +186,9 @@ int listFinalize(List *list) {
 	while (list->head->next != list->tail) {
 		Node *target = list->head->next;
 		list->head->next = target->next;
+		if (list->freeFunction) {
+			list->freeFunction(target);
+		}
 		free(target);
 	}
 	free(list->head);
