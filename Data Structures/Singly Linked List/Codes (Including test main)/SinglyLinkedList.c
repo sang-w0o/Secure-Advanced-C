@@ -87,11 +87,6 @@ int listInsert(List *list, int index, void *data) {
 		return -1;
 	}
 
-	if (list->count == 0) {
-		fprintf(stderr, "listInsert:list is empty.\n");
-		return -1;
-	}
-
 	if (index < 0 || index >= list->count) {
 		fprintf(stderr, "listInsert:index is out of bound.\n");
 		return -1;
