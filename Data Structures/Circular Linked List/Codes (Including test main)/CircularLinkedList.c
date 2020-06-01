@@ -50,6 +50,7 @@ void *listRemove(List *list, int index) {
 	Node *delNode = prev->next;
 	void *outData = delNode->data;
 	prev->next = delNode->next;
+	free(delNode);
 	--(list->count);
 	return outData;
 }
