@@ -124,7 +124,6 @@ static int extendIfNecessary(Hashmap *map) {
 		fprintf(stderr, "increaseSize : realloc failed.\n");
 		return -1;
 	}
-	// hashing을 다시 해야 하므로 realloc을 사용하지 않는다.
 	for (size_t i = 0; i < map->bucketSize; i++) {
 		Node *cur = map->buckets[i];
 		while (cur != NULL) {
